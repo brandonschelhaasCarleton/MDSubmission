@@ -5,9 +5,9 @@ close all
 format shorte
 
 set(0, 'DefaultFigureWindowStyle', 'docked')
-global C
+global C Masses
 global Vx Vy x y Fx Fy AtomSpacing
-global Phi nAtoms time Mass0 Mass1 Pty0in Pty1in
+global Phi nAtoms time Pty0in Pty1in
 global LJEpsilon LJSigma Phi0 AtomType
 global MinX MaxX MinY MaxY PhiTot KETot
 global nAtoms0 nAtoms1 T T0 T1 MarkerSize
@@ -92,8 +92,8 @@ else
     V2_1 = 0;
 end
 
-KE0 = mean(V2_0) * Mass0 * 0.5;
-KE1 = mean(V2_1) * Mass1 * 0.5;
+KE0 = mean(V2_0) * Masses.mass(1) * 0.5;
+KE1 = mean(V2_1) * Masses.mass(2) * 0.5;
 
 KETot(c) = (KE0 * nAtoms0 + KE1 * nAtoms1);
 T(c) = KETot(c) / nAtoms / C.kb;
@@ -125,31 +125,31 @@ while t < TStop
         %     dv = F/m dt
         %     x = Vx * dt + F/m (dt)^2 / 2
 
-        dvx(Pty0in) = Fx(Pty0in) * dt / Mass0;
-        dvx(Pty1in) = Fx(Pty1in) * dt / Mass1;
+        dvx(Pty0in) = Fx(Pty0in) * dt / Masses.mass(1);
+        dvx(Pty1in) = Fx(Pty1in) * dt / Masses.mass(2);
 
         Vx = Vx + dvx;
-        dx(Pty0in) = Vx(Pty0in) * dt + Fx(Pty0in) * dt^2 / 2 / Mass0;
-        dx(Pty1in) = Vx(Pty1in) * dt + Fx(Pty1in) * dt^2 / 2 / Mass1;
+        dx(Pty0in) = Vx(Pty0in) * dt + Fx(Pty0in) * dt^2 / 2 / Masses.mass(1);
+        dx(Pty1in) = Vx(Pty1in) * dt + Fx(Pty1in) * dt^2 / 2 / Masses.mass(2);
 
-        dvy(Pty0in) = Fy(Pty0in) * dt/Mass0;
-        dvy(Pty1in) = Fy(Pty1in) * dt/Mass1;
+        dvy(Pty0in) = Fy(Pty0in) * dt/Masses.mass(1);
+        dvy(Pty1in) = Fy(Pty1in) * dt/Masses.mass(2);
 
         Vy = Vy + dvy;
 
-        dy(Pty0in) = Vy(Pty0in) * dt + Fy(Pty0in) * dt^2 / 2 / Mass0;
-        dy(Pty1in) = Vy(Pty1in) * dt + Fy(Pty1in) * dt^2 / 2 / Mass1;
+        dy(Pty0in) = Vy(Pty0in) * dt + Fy(Pty0in) * dt^2 / 2 / Masses.mass(1);
+        dy(Pty1in) = Vy(Pty1in) * dt + Fy(Pty1in) * dt^2 / 2 / Masses.mass(2);
 
         x = xp + dx;
         y = yp + dy;
 
     elseif Method == 'VE'
 
-        x(Pty0in) = -xpp(Pty0in) + 2 * xp(Pty0in) + dt^2 / Mass0 * Fx(Pty0in);
-        x(Pty1in) = -xpp(Pty1in) + 2 * xp(Pty1in) + dt^2 / Mass1 * Fx(Pty1in);
+        x(Pty0in) = -xpp(Pty0in) + 2 * xp(Pty0in) + dt^2 / Masses.mass(1) * Fx(Pty0in);
+        x(Pty1in) = -xpp(Pty1in) + 2 * xp(Pty1in) + dt^2 / Masses.mass(2) * Fx(Pty1in);
 
-        y(Pty0in) = -ypp(Pty0in) + 2 * yp(Pty0in) + dt^2 / Mass0 * Fy(Pty0in);
-        y(Pty1in) = -ypp(Pty1in) + 2 * yp(Pty1in) + dt^2 / Mass1 * Fy(Pty1in);
+        y(Pty0in) = -ypp(Pty0in) + 2 * yp(Pty0in) + dt^2 / Masses.mass(1) * Fy(Pty0in);
+        y(Pty1in) = -ypp(Pty1in) + 2 * yp(Pty1in) + dt^2 / Masses.mass(2) * Fy(Pty1in);
 
         Vx = (x - xpp) / (2 * dt);%+ randn()*sqrt(1.38064852e-23*500/Mass0)
         Vy = (y - ypp) / (2 * dt);
@@ -174,8 +174,8 @@ while t < TStop
         V2_1 = 0;
     end
 
-    KE0 = mean(V2_0) * Mass0 * 0.5;
-    KE1 = mean(V2_1) * Mass1 * 0.5;
+    KE0 = mean(V2_0) * Masses.mass(1) * 0.5;
+    KE1 = mean(V2_1) * Masses.mass(2) * 0.5;
 
     KETot(c) = (KE0 * nAtoms0 + KE1 * nAtoms1);
     T(c) = KETot(c) / nAtoms / C.kb;

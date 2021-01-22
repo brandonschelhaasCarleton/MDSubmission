@@ -1,7 +1,7 @@
 
 function [ output_args ] = PlotVars(c, Limits)
 global Vx Vy L W x y Fx Fy C
-global Phi nAtoms time Mass0 Mass1 Pty0in Pty1in
+global Phi nAtoms time Masses Pty0in Pty1in
 global LJEpsilon Phi0 PhiTot KETot MinX MaxX MinY MaxY
 global T T0 T1 ScaleV MarkerSize doPlotImage PlotCount
 global PlotFig map im PlotSize ScaleF
@@ -63,8 +63,8 @@ title('Atoms and Velocities')
 xlabel('X')
 ylabel('Y')
 
-AE(Pty0in) = 1 / 2 * Mass0 * V2(Pty0in) + Phi(Pty0in) - Phi0;
-AE(Pty1in) = 1 / 2 * Mass1 * V2(Pty1in) + Phi(Pty1in) - Phi0;
+AE(Pty0in) = 1 / 2 * Masses.mass(1) * V2(Pty0in) + Phi(Pty0in) - Phi0;
+AE(Pty1in) = 1 / 2 * Masses.mass(2) * V2(Pty1in) + Phi(Pty1in) - Phi0;
 % if AddParticle, AE(end) = 0;end
 % AE = Phi;
 subplot(3, 2, 4),scatter3(x,y,AE,ones(1,nAtoms)*300,AE,'fill');

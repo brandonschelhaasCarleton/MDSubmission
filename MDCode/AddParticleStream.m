@@ -1,11 +1,7 @@
 function [ output_args ] = AddParticleStream(num, x0, y0, PartAng, Type, Ep, Seper)
-global AtomSpacing x y AtomType Vx Vy Mass0 Mass1 nAtoms
+global AtomSpacing x y AtomType Vx Vy Masses nAtoms
 
-if Type == 0
-    Mass = Mass0;
-else
-    Mass = Mass1;
-end
+Mass = Masses.mass(Type + 1);
 
 for p = 0:num - 1
     nAtoms = nAtoms + 1;

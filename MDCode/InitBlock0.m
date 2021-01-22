@@ -4,8 +4,16 @@ TStop = 5000 * dt;
 InitDist = 0.0;
 Method = 'VE'; % VE -- verlot; FD -- Forward Difference
 
-Mass0 = 14 * C.am; % Silicon
-Mass1 = 5 * C.am; % Argon
+% Mass0 = 14 * C.am; % Silicon
+% Mass1 = 5 * C.am; % Argon
+Masses.name = string(zeros(1, 3)); % Create an array for names
+Masses.mass = zeros(1, 3); % Create an array for masses
+Masses.name(1) = "Silicon";
+Masses.mass(1) = 14 * C.am;
+Masses.name(2) = "Argon";
+Masses.mass(2) = 5 * C.am;
+Masses.name(3) = "Boron";
+Masses.mass(3) = 10.811 * C.am;
 
 AtomSpacing = 0.5430710e-9;
 LJSigma = AtomSpacing / 2^(1 / 6);

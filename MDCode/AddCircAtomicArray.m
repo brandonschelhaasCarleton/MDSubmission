@@ -2,13 +2,9 @@ function AddCircAtomicArray(rad, X0, Y0, VX0, VY0, InitDist, Temp, Type)
 global C
 global x y AtomSpacing
 global nAtoms
-global AtomType Vx Vy Mass0 Mass1
+global AtomType Vx Vy Masses
 
-if Type == 0
-    Mass = Mass0;
-else
-    Mass = Mass1;
-end
+Mass = Masses.mass(Type + 1);
 
 L = (2*rad - 1) * AtomSpacing;
 W = (2*rad - 1) * AtomSpacing;

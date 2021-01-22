@@ -2,13 +2,9 @@ function AddHCPAtomicArray(LAtoms,WAtoms,X0,Y0,VX0,VY0,RotAng,InitDist,Temp,Type
 global C
 global x y AtomSpacing
 global nAtoms % MinX MaxX MinY MaxY
-global AtomType Vx Vy Mass0 Mass1
+global AtomType Vx Vy Masses
 
-if Type == 0
-    Mass = Mass0;
-else
-    Mass = Mass1;
-end
+Mass = Masses.mass(Type + 1);
 
 L = ((LAtoms - 1) + 0.5) * AtomSpacing;
 W = (WAtoms - 1) * sqrt(3) / 2 * AtomSpacing;
